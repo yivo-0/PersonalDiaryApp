@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewData["Title"] = "Records";
+}
+
+
+<div class="row">
+
+    
+
+
+    <form>
+        <div class="form-row">
+            <div class="col-md-3 mb-2">
+                <h1 style="margin: 0 0 0 20px;" class="text-center"><i class="fas fa-sticky-note text-success"></i> Records </h1>
+            </div>
+            <div class="col-md-3 mb-3">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="TextFilter" placeholder="Text Filter">
+            </div>
+            <div class="col-md-3 mb-3">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="StartDate" placeholder="Start Date">
+            </div>
+            <div class="col-md-3 mb-3">
+                <input type="text" class="form-control mb-2 mr-sm-2" id="EndDate" placeholder="End Date">
+            </div>
+
+        </div>
+        </form>
+        @*<input type="text" name="TextFilter" id="TextFilter" />*@
+
+        @*<p>Start date: <input type="text" id="StartDate"></p>
+
+            <p>End date: <input type="text" id="EndDate"></p>*@
+
+
+
+        <div class="container" id="view-all">
+
+        </div>
+</div>
+
+
+@section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+
+        $(function () {
+            $('#StartDate').datepicker({
+                onSelect: function (dateText, inst) {
+                    getFilteredData((parseInt($("#current-page").text(), 10) - 1), 5);
+                },      
+            });
+
+            $('#EndDate').datepicker({
+                onSelect: function (dateText, inst) {
+                    getFilteredData((parseInt($("#current-page").text(), 10) - 1), 5);
+                },
+            });
+
+        });
+
+
+
+
+
+        function getFilteredData(_page, _pageSize) {
+            var query = {
+                page: _page,
+                pageSize: _pageSize,
+                searchedText: $("#TextFilter").val(),
+                selectedStartDate: $("#StartDate").val(),
+                selectedEndDate: $("#EndDate").val()
+            };
+            $.post("/Records/GetFilteredData", query, function (data) {
+                $("#view-all").html(data);
+            });
+        }
+
+
+        function movePage(side) {
+            getFilteredData(((parseInt($("#current-page").text(), 10) - 1) + side), 5)
+        }
+
+
+        $(document).ready(function () {
+            getFilteredData(0, 5)
+
+          
+        });
+
+        $(document).ajaxComplete(function () {
+            var isInputEnded = true;
+
+            $("#TextFilter").keyup(function (e) {
+                isInputEnded = false
+                setTimeout(function () {
+                    isInputEnded = true;
+
+                }, 500);
+                setTimeout(function () {
+                    if (isInputEnded) {
+
+                        getFilteredData(0, 5)
+                    }
+                }, 600);
+            });
+
+        });
+
+      
+
+
+
+    </script>
+
+    <script>
+        function showCreate(id) {
+            $.ajax({
+                url: "/Records/AddOrEdit",
+                contentType: "application/json; charset=utf-8",
+                type: "Get",
+                data: { id: id },
+
+            }).done(function (data) {
+                $('#myModal').modal('show');
+                $('#mymodallabel').html('Create record');
+                $('#bodymodal').html(data);
+
+            })
+        }
+        function showDelete(id) {
+            $.ajax({
+                url: "/Records/DeleteConfirmation",
+                contentType: "application/json; charset=utf-8",
+                type: "Get",
+                data: { id: id },
+
+            }).done(function (data) {
+                $('#myModal').modal('show');
+                $('#mymodallabel').html('Delete record');
+                $('#bodymodal').html(data);
+
+            })
+        }
+
+
+    </script>
+
+
+
+}

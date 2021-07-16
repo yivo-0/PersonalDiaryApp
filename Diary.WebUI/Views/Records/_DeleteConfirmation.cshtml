@@ -1,0 +1,17 @@
+﻿@model DataAccessLibrary.Models.Record
+
+@{ Layout = null; }
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Delete" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+            <span>Are you sure, want to delete this record ?</span><br />
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Delete" class="btn btn-danger me-2" role="button" />
+                    <a class="btn btn-success me-2 text-white" role="button" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

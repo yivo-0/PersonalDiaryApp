@@ -1,0 +1,23 @@
+﻿@model Diary.WebUI.Models.Email
+
+@{ Layout = null; }
+
+<form asp-action="SendToken" asp-controller="Users" onsubmit="return jQueryAjaxPostAccount(this);">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="EmailFrom" class="control-label">Your email</label>
+        <input type="email" asp-for="EmailFrom" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EmailTo" class="control-label">User`s email</label>
+        <input type="email" asp-for="EmailTo" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Message" class="control-label">Addition message</label>
+        <input type="text" asp-for="Message" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-success me-2" role="button" />
+        <a class="btn btn-danger me-2 text-white" role="button" data-dismiss="modal">Close</a>
+    </div>
+</form>

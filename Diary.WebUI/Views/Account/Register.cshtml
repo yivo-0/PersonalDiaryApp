@@ -1,0 +1,64 @@
+﻿@model Diary.WebUI.ViewModels.RegisterViewModel
+<h2>Registration of new user</h2>
+<form method="post" asp-controller="Account" asp-action="Register">
+    <div asp-validation-summary="ModelOnly"></div>
+    <div>
+        <input type="hidden" asp-for="Id" />
+    </div>
+    <div>
+        <label asp-for="Email"></label><br />
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="UserName"></label><br />
+        <input asp-for="UserName" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+    <div>
+        <label asp-for="Year"></label><br />
+        <input asp-for="Year" />
+        <span asp-validation-for="Year"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="PasswordConfirm"></label><br />
+        <input asp-for="PasswordConfirm" />
+        <span asp-validation-for="PasswordConfirm"></span>
+    </div>
+    <div>
+        <label id="captcha-text"></label><br />
+        <input type="number" id="captcha-input" />
+    </div>
+    <div>
+        <input id="form-submit" type="submit" value="Register" disabled />
+    </div>
+
+</form>
+
+<script>
+    $(document).ready(function () {
+        var myArray = { 1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine" };
+        const rnd1 = Math.floor(Math.random() * 9) + 1
+        const rnd2 = Math.floor(Math.random() * 9) + 1
+
+        $("#captcha-text").text(myArray[rnd1] + " plus " + myArray[rnd2] + "?");
+
+        $("#captcha-input").keyup(function () {
+            if (parseInt($("#captcha-input").val()) == (rnd1 + rnd2)) {
+                $("#form-submit").removeAttr("disabled");
+                console.log(1);
+            }
+            else {
+                $("#form-submit").attr("disabled", "disabled");
+                console.log(2);
+            }
+        });
+        
+
+    });
+</script>

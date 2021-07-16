@@ -1,0 +1,51 @@
+﻿@model DataAccessLibrary.Models.Record
+
+@{ Layout = null; }
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.Id" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="CreateDate" />
+            <input type="hidden"  asp-for="UserId" class="form-control" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">#</div>
+                    </div>
+                    <input asp-for="Title" class="form-control" />
+                </div>
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label asp-for="Text" class="control-label"></label>
+                        @*<input asp-for="Text" class="form-control" />*@
+                        @Html.TextAreaFor(model => model.Text, 5, 500, new { maxlength = 500, @class = "form-control" })
+                        <span asp-validation-for="Text" class="text-danger"></span>
+                    </div>
+                </div>
+              
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="ImageFile" class="control-label"></label>
+                        <input asp-for="ImageFile" class="form-control" accept="image/*" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+                   @*onclick="closeCreate()"*@
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

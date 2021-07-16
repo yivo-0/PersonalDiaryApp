@@ -1,0 +1,83 @@
+﻿@model DataAccessLibrary.Models.User
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<div>
+    <h4>User:  @Html.DisplayFor(model => model.Id)</h4>
+    @{
+
+        if (!string.IsNullOrEmpty(Model.DeleteDate))
+        {
+            <span class="text-danger"> your account will be deleted in two days</span>
+            <a onclick="RestoreAccount('@Html.DisplayFor(model => model.Id)')" class="btn btn-success text-white"><i class="fas fa-recover"></i> Restore Account</a>
+        }
+        else
+        {
+            <div>
+                <a onclick="showDeleteAccount('@Html.DisplayFor(model => model.Id)')" class="btn btn-danger text-white"><i class="fas fa-trash"></i> Delete Account</a>
+            </div>
+        }
+
+    }
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+    </dl>
+</div>
+
+
+
+
+<script>
+
+    function showDeleteAccount(id) {
+
+        $.ajax({
+            url: "/Account/Delete",
+
+            type: "Get",
+            data: { id: id },
+
+        }).done(function (data) {
+            $('#myModal').modal('show');
+            $('#mymodallabel').html('Delete account');
+            $('#bodymodal').html(data);
+
+        })
+    }
+    function RestoreAccount(id) {
+
+        $.ajax({
+            url: "/Account/Restore",
+
+            type: "Post",
+            data: { id: id },
+
+        }).done(function (data) {
+            alert("You account restored");
+            window.location.reload(false); 
+        })
+    }
+
+</script>
